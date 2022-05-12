@@ -1,0 +1,12 @@
+newmtl Sphere1Mtl
+Material Color
+Ka 0.0111261 0.0869013 0.493616
+Kd 0.0111261 0.0869013 0.493616
+Ks 0.000698107 0.00545263 0.030972 
+
+d 1
+
+Ns 0
+
+map_Bump Sphere1_nmap.png
+

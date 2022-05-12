@@ -1,0 +1,12 @@
+newmtl Window1Mtl
+Material Color
+Ka 0.464741 0.65237 0.781751
+Kd 0.464741 0.65237 0.781751
+Ks 0.0291602 0.040933 0.049051 
+
+d 0.603922
+
+Ns 0
+
+map_Bump Window1_nmap.png
+

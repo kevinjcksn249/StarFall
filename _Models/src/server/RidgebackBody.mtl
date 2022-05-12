@@ -1,0 +1,36 @@
+newmtl Tower1Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.000448943 0.0011867 0.0019797 
+
+d 1
+
+Ns 0
+
+map_Bump Tower1_nmap.png
+
+newmtl Wedge9Mtl
+Material Color
+Ka 0.618686 0.618686 0.618686
+Kd 0.618686 0.618686 0.618686
+Ks 0.0388195 0.0388195 0.0388195 
+
+d 1
+
+Ns 0
+
+map_Bump Tower1_nmap.png
+
+newmtl Cornerwedge5Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.000448943 0.0011867 0.0019797 
+
+d 0.823529
+
+Ns 0
+
+map_Bump Tower1_nmap.png
+
