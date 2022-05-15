@@ -26,6 +26,17 @@ function character.StopTurning.OnInvoke()
 	ShipObj:StopTurning()
 end
 
+-- Definitions for the player character's internal bindable and remote event listeners
+local function onDamaged(intAmount)
+	ShipObj:Damage(intAmount)
+	wait(.1)
+	ShipObj:Recharge()
+end
+
+local function onDestroyed()
+	ShipObj:Destroy()
+end
+
 -- Initializes the ship object.
 -- TODO: in the future, this code should run when called by ShipSelectGui, not the client initializer
 function ShipObj.Init()
@@ -40,6 +51,8 @@ function ShipObj.Init()
 		character:GetAttribute("LaserFireRate"),
         character
     )
+	character.Damaged.Event:connect(onDamaged)
+	character.Destroyed.Event:connect(onDestroyed)
 end
 
 return ShipObj

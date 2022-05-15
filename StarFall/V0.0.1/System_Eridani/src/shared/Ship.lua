@@ -1,7 +1,7 @@
 
 -- These values are suggestions for what your average, well-rounded gunship's stats should be
 -- These default values should get overwritten when the player chooses a ship
--- NOTE: NEVER change values directly from another script. Values intended to be exposed to outside scripts will have accessors and mutators
+-- NOTE: NEVER change values directly from another script. Values intended to be exposed to outside scripts can be changed with SetProperty()
 
 local Ship = {
     -- Public properties
@@ -22,6 +22,7 @@ local Ship = {
     -- Private properties
     Moving = false,                 -- Indicates if the ship is moving
     Turning = false,                -- Indicates if the ship is turning
+    Destroyed = false,              -- Indicates the ship has been destroyed. Keeps the ship from being destroyed multiple times in one spawn
 }
 Ship.__index = Ship
 
@@ -80,6 +81,73 @@ function Ship:StopTurning()
     self.CharacterModel.AngularVelocity.AngularVelocity = Vector3.new(0,0,0)
     if self.Moving then
         self:Advance()
+    end
+end
+
+-- Deal damage to the ship
+function Ship:Damage(intDmgAmount)
+    self.Recharging = false
+    if self.Shield > 0 then
+        if intDmgAmount > self.Shield then
+            rem = intDmgAmount - self.Shield
+            self:SetProperty("Shield", 0)
+            self:SetProperty("Health", self.Health - rem)
+        elseif intDmgAmount <= self.Shield then
+            self:SetProperty("Shield", self.Shield - intDmgAmount)
+        end
+    elseif self.Health > 0 then
+        self:SetProperty("Health", self.Health - intDmgAmount)
+    end
+    if self.Health == 0 then
+        self.CharacterModel.Destroyed:Fire()
+    end
+end
+
+-- Destroy the ship
+function Ship:Destroy()
+    if self.Destroyed then return end
+    self.Destroyed = true -- Should be the only time this variable is set to true, and it should NEVER be set false outside a constructor
+    print("Ship destroyed!")
+end
+
+-- Recharge the ship's shields
+function Ship:Recharge()
+    self.Recharging = true
+    for i = 1, self.ShieldRechargeInterval do
+        for i = 1, 100 do
+            wait(.01)
+            if not self.Recharging then return end
+        end     
+    end
+
+    while self.Shield < self.MaxShield do
+        for i = 1, 10 do
+            wait(.01)
+            if not self.Recharging then return end
+        end
+        self:SetProperty("Shield", self.Shield + self.ShieldRechargeAmount)
+    end
+end
+
+
+-- Set one of the ship's properties
+function Ship:SetProperty(strProp, intValue)
+    self[strProp] = intValue
+    self.CharacterModel:SetAttribute(strProp, intValue)
+    
+    -- Limit 0 < shield/health < MaxShield/MaxHealth
+    if strProp == "Shield" then
+        if self[strProp] < 0 then
+            self:SetProperty(strProp, 0)
+        elseif self[strProp] > self.MaxShield then
+            self:SetProperty(self.MaxShield)
+        end
+    elseif strProp == "Health" then
+        if self[strProp] < 0 then
+            self:SetProperty(strProp, 0)
+        elseif self[strProp] > self.MaxHealth then
+            self:SetProperty(strProp, self.MaxHealth)
+        end
     end
 end
 
