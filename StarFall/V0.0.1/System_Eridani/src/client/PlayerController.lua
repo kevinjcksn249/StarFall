@@ -5,6 +5,8 @@
 local Players = game:GetService("Players")
 local PlayerController = {}
 
+
+-- White-lists key inputs. To add a key to input detection, add a case for it to this function
 local function isRelevantInput(input)
     return (
         input.KeyCode == Enum.KeyCode.W
@@ -16,6 +18,7 @@ local function isRelevantInput(input)
     );
 end
 
+-- Registers key-press event listeners and invokes the relevant functions
 local function registerKeyPressed(input, gameProcessedEvent)
     local player = Players.LocalPlayer
     local ship = player.Character
@@ -24,11 +27,19 @@ local function registerKeyPressed(input, gameProcessedEvent)
     end
 
     if input.KeyCode == Enum.KeyCode.W then
-        print("W key pressed")
         ship.Advance:Invoke()
+    end
+
+    if input.KeyCode == Enum.KeyCode.A then
+        ship.TurnLeft:Invoke()
+    end
+
+    if input.KeyCode == Enum.KeyCode.D then
+        ship.TurnRight:Invoke()
     end
 end
 
+-- Registers key-release event listeners and invokes the relevant functions
 local function registerKeyReleased(input, gameProcessedEvent)
     local player = Players.LocalPlayer
     local ship = player.Character
@@ -37,12 +48,15 @@ local function registerKeyReleased(input, gameProcessedEvent)
     end
 
     if input.KeyCode == Enum.KeyCode.W then
-        print("W key released")
         ship.StopMoving:Invoke()
     end
 
+    if input.KeyCode == Enum.KeyCode.A or input.KeyCode == Enum.KeyCode.D then
+        ship.StopTurning:Invoke()
+    end
 end
 
+-- Public function that connects the event listeners. Must be called every time a player spawns
 function PlayerController.ConnectListeners()
     local RunService = game:GetService("RunService")
     local UserInputService = game:GetService("UserInputService")

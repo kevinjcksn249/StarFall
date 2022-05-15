@@ -4,6 +4,7 @@
 -- NOTE: NEVER change values directly from another script. Values intended to be exposed to outside scripts will have accessors and mutators
 
 local Ship = {
+    -- Public properties
     Health = 100,                   -- Current health for the ship's hull
     MaxHealth = 100,                -- Max health for the ship's hull
     Shield = 100,                   -- Current health for the ship's shields
@@ -17,7 +18,10 @@ local Ship = {
     LaserFireRate = .1,             -- Wait time between laser blasts during a continuous salvo
     MissileLockedOn  = false,       -- Indicator of whether the ship is currently locked onto by a missile
     CharacterModel = nil,           -- Object reference to the Roblox model in the workspace
-    Moving = false
+    
+    -- Private properties
+    Moving = false,                 -- Indicates if the ship is moving
+    Turning = false,                -- Indicates if the ship is turning
 }
 Ship.__index = Ship
 
@@ -53,6 +57,30 @@ function Ship:StopMoving()
     if not self.Moving then return end
     self.Moving = false
     self.CharacterModel.LinearVelocity.VectorVelocity = Vector3.new(0,0,0)
+end
+
+-- Causes the ship to start turning left
+function Ship:TurnLeft()
+    if self.Turning then return end
+    self.Turning = true
+    self.CharacterModel.AngularVelocity.AngularVelocity = Vector3.new(0, self.TurnSpeed, 0)
+end
+
+-- Causes the ship to start turning right
+function Ship:TurnRight()
+    if self.Turning then return end
+    self.Turning = true
+    self.CharacterModel.AngularVelocity.AngularVelocity = Vector3.new(0, self.TurnSpeed * -1, 0)
+end
+
+-- Causes the ship to stop turning
+function Ship:StopTurning()
+    if not self.Turning then return end
+    self.Turning = false
+    self.CharacterModel.AngularVelocity.AngularVelocity = Vector3.new(0,0,0)
+    if self.Moving then
+        self:Advance()
+    end
 end
 
 return Ship

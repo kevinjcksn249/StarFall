@@ -1,22 +1,33 @@
+-- Control interface for ship class
 local character = script.Parent.Parent
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Ship = require(ReplicatedStorage.Common.Ship)
 local ShipObj = {}
 ShipObj.__Index = ShipObj
 
-
+-- Definitions for the player character's bindable and remote functions
 function character.Advance.OnInvoke()
-	print("Advance method invoked")
-    ShipObj:Advance()
+	ShipObj:Advance()
 end
 
 function character.StopMoving.OnInvoke()
-	print("Stop moving method invoked")
 	ShipObj:StopMoving()
 end
 
+function character.TurnLeft.OnInvoke()
+	ShipObj:TurnLeft()
+end
+
+function character.TurnRight.OnInvoke()
+	ShipObj:TurnRight()
+end
+
+function character.StopTurning.OnInvoke()
+	ShipObj:StopTurning()
+end
+
 -- Initializes the ship object.
--- TODO: in the future, this code should run when called by ShipSelectGui, not when the script first loads
+-- TODO: in the future, this code should run when called by ShipSelectGui, not the client initializer
 function ShipObj.Init()
     ShipObj = Ship.new(
         character:GetAttribute("MaxHealth"), 

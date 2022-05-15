@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "Enum",
+        "game",
+        "script",
+        "wait",
+        "workspace",
+        "Vector3"
+    ]
+}
