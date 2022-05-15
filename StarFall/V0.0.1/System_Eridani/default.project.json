@@ -1,24 +1,34 @@
 {
-  "name": "V0.0.1",
+  "name": "System_Eridani",
   "tree": {
     "$className": "DataModel",
+
     "ReplicatedStorage": {
       "Common": {
         "$path": "src/shared"
       }
     },
+
     "ServerScriptService": {
       "Server": {
         "$path": "src/server"
       }
     },
+
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "Client": {
           "$path": "src/client"
         }
+
+      },
+      "StarterCharacterScripts":{
+        "Controller": {
+          "$path": "src/Controller"
+        }
       }
     },
+
     "Workspace": {
       "$properties": {
         "FilteringEnabled": true
@@ -62,12 +72,6 @@
     "SoundService": {
       "$properties": {
         "RespectFilteringEnabled": true
-      }
-    },
-    "ServerStorage": {
-      "$className": "ServerStorage",
-      "Test": {
-        "$path": "TestEZ"
       }
     }
   }

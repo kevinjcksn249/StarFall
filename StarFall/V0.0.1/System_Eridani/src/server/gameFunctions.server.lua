@@ -10,3 +10,6 @@ local fntns = scriptService.GameFunctions
 function fntns.BuildShip.OnInvoke(shipName)
 
 end
+
+function foo()
+end
