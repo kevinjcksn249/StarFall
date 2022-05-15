@@ -10,6 +10,11 @@ function character.Advance.OnInvoke()
     ShipObj:Advance()
 end
 
+function character.StopMoving.OnInvoke()
+	print("Stop moving method invoked")
+	ShipObj:StopMoving()
+end
+
 -- Initializes the ship object.
 -- TODO: in the future, this code should run when called by ShipSelectGui, not when the script first loads
 function ShipObj.Init()

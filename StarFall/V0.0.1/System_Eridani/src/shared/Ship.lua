@@ -48,6 +48,11 @@ function Ship:Advance()
     self.CharacterModel.LinearVelocity.VectorVelocity = self.CharacterModel.HumanoidRootPart.CFrame.LookVector * self.MaxSpeed
 end
 
-
+-- Stops the ship from moving forward
+function Ship:StopMoving()
+    if not self.Moving then return end
+    self.Moving = false
+    self.CharacterModel.LinearVelocity.VectorVelocity = Vector3.new(0,0,0)
+end
 
 return Ship

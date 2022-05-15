@@ -1088,7 +1088,7 @@ CharacterController.Init()]]></ProtectedString>
     Client-side component of ship controls. Listens for key input events and issues remote calls to control ship based on those events
 ]]
 
-
+local Players = game:GetService("Players")
 local PlayerController = {}
 
 local function isRelevantInput(input)
@@ -1103,7 +1103,7 @@ local function isRelevantInput(input)
 end
 
 local function registerKeyPressed(input, gameProcessedEvent)
-    local player = script.Parent.Parent.Parent
+    local player = Players.LocalPlayer
     local ship = player.Character
     if gameProcessedEvent or not isRelevantInput(input) then
         return;
@@ -1111,14 +1111,12 @@ local function registerKeyPressed(input, gameProcessedEvent)
 
     if input.KeyCode == Enum.KeyCode.W then
         print("W key pressed")
-        local children = ship:GetChildren()
-		for i = 1, #children do
-			print(children[i].Name)
-		end
-        ship.Advance:InvokeClient(game.Players.LocalPlayer)
+        ship.Advance:Invoke()
     end
+end
 
-
+local function registerKeyReleased(input, gameProcessedEvent)
+    
 end
 
 function PlayerController.ConnectListeners()
@@ -1209,7 +1207,7 @@ local ShipObj = {}
 ShipObj.__Index = ShipObj
 
 
-function character.Advance.OnClientInvoke()
+function character.Advance.OnInvoke()
 	print("Advance method invoked")
     ShipObj:Advance()
 end
@@ -1774,10 +1772,19 @@ AABUdXJuU3BlZWQGAAAAAAAAFEA=]]></BinaryString>
 			<Item class="BindableFunction" referent="RBX41B5E75D51D34234AA8A42DAB1FDAF1E">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
-					<string name="Name">Function</string>
+					<string name="Name">Advance</string>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">3785eb7aa63eedc702929f55002e12cd</UniqueId>
+				</Properties>
+			</Item>
+			<Item class="BindableFunction" referent="RBX3DB2C520380F486B99DC849DB180BCE5">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<string name="Name">StopMoving</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">3785eb7aa63eedc702929f550034818e</UniqueId>
 				</Properties>
 			</Item>
 		</Item>

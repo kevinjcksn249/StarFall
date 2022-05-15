@@ -2,7 +2,7 @@
     Client-side component of ship controls. Listens for key input events and issues remote calls to control ship based on those events
 ]]
 
-
+local Players = game:GetService("Players")
 local PlayerController = {}
 
 local function isRelevantInput(input)
@@ -17,7 +17,7 @@ local function isRelevantInput(input)
 end
 
 local function registerKeyPressed(input, gameProcessedEvent)
-    local player = script.Parent.Parent.Parent
+    local player = Players.LocalPlayer
     local ship = player.Character
     if gameProcessedEvent or not isRelevantInput(input) then
         return;
@@ -27,7 +27,19 @@ local function registerKeyPressed(input, gameProcessedEvent)
         print("W key pressed")
         ship.Advance:Invoke()
     end
+end
 
+local function registerKeyReleased(input, gameProcessedEvent)
+    local player = Players.LocalPlayer
+    local ship = player.Character
+    if gameProcessedEvent or not isRelevantInput(input) then
+        return;
+    end
+
+    if input.KeyCode == Enum.KeyCode.W then
+        print("W key released")
+        ship.StopMoving:Invoke()
+    end
 
 end
 
@@ -36,6 +48,7 @@ function PlayerController.ConnectListeners()
     local UserInputService = game:GetService("UserInputService")
 
     UserInputService.InputBegan:Connect(registerKeyPressed)
+    UserInputService.InputEnded:Connect(registerKeyReleased)
 end
 
 return PlayerController
