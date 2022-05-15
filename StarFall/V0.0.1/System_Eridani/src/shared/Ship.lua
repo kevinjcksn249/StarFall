@@ -16,7 +16,8 @@ local Ship = {
     LaserDamage = 10,               -- Amount of damage done by each laser blast from the ship's turrets
     LaserFireRate = .1,             -- Wait time between laser blasts during a continuous salvo
     MissileLockedOn  = false,       -- Indicator of whether the ship is currently locked onto by a missile
-    CharacterModel = nil            -- Object reference to the Roblox model in the workspace
+    CharacterModel = nil,           -- Object reference to the Roblox model in the workspace
+    Moving = false
 }
 Ship.__index = Ship
 
@@ -43,7 +44,7 @@ end
 -- and the trajectory should update when the ship changes without intervention
 -- i.e: The physics object should work relative to the ship and not the workspace
 function Ship:Advance()
-    print(self.CharacterModel.Name)
+    self.Moving = true
     self.CharacterModel.LinearVelocity.VectorVelocity = self.CharacterModel.HumanoidRootPart.CFrame.LookVector * self.MaxSpeed
 end
 

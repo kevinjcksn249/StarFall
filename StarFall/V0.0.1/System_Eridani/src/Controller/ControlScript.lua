@@ -1,26 +1,29 @@
 local character = script.Parent.Parent
-local ServerScriptService = game:GetService("ServerScriptService")
-local Ship = require(ServerScriptService.Server.Ship)
-local ShipObj = nil
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Ship = require(ReplicatedStorage.Common.Ship)
+local ShipObj = {}
+ShipObj.__Index = ShipObj
+
 
 function character.Advance.OnInvoke()
+	print("Advance method invoked")
     ShipObj:Advance()
 end
 
 -- Initializes the ship object.
 -- TODO: in the future, this code should run when called by ShipSelectGui, not when the script first loads
-function Init()
+function ShipObj.Init()
     ShipObj = Ship.new(
-        character.Attributes.MaxHealth, 
-        character.Attributes.MaxShield, 
-        character.Attributes.Speed, 
-        character.Attributes.TurnSpeed, 
-        character.Attributes.ShieldRechargeInterval, 
-        character.Attributes.ShieldRechargeAmount, 
-        character.Attributes.LaserDamage, 
-        character.Attributes.LaserFireRate,
+        character:GetAttribute("MaxHealth"), 
+		character:GetAttribute("MaxShield"), 
+        character:GetAttribute("Speed"), 
+		character:GetAttribute("TurnSpeed"), 
+		character:GetAttribute("ShieldRechargeInterval"), 
+		character:GetAttribute("ShieldRechargeAmount"), 
+		character:GetAttribute("LaserDamage"), 
+		character:GetAttribute("LaserFireRate"),
         character
     )
 end
 
-Init()
+return ShipObj
